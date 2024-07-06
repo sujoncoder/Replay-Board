@@ -1,5 +1,6 @@
 "use client";
 
+import Button from "@/components/Button";
 import ReplayFormModal from "@/components/ReplayFormModal";
 import Replayiteam from "@/components/Replayiteam";
 import { useState } from "react";
@@ -24,12 +25,13 @@ export default function Home() {
         <div className="grow"></div>
 
         <div>
-          <button
+          <Button
+            primary
             onClick={handleOpenReplayPopup}
             className="bg-blue-500 px-4 py-1.5 shadow hover:brightness-105 duration-200 active:bg-blue-600 rounded-full text-white text-opacity-90"
           >
             Make a suggestion
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -41,7 +43,7 @@ export default function Home() {
         <Replayiteam />
       </div>
 
-      {showReplayPopup && <ReplayFormModal />}
+      {showReplayPopup && <ReplayFormModal onSetModal={setShowReplayPopup} />}
     </main>
   );
 }
