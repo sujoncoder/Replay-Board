@@ -8,8 +8,11 @@ const ReplayFormModal = ({ onSetModal }) => {
   const [description, setDescription] = useState("");
 
   // HANDLE CREATE POST
-  const hadnleCreatePost = () => {
-    axios.post("", { title, description }).then((res) => console.log(res));
+  const hadnleCreatePost = (e) => {
+    e.preventDefault();
+    axios
+      .post("/api/replay", { title, description })
+      .then((res) => console.log(res));
   };
 
   return (
