@@ -1,6 +1,7 @@
 import { TbTriangleFilled } from "react-icons/tb";
 import Button from "./Button";
 import Popup from "./Popup";
+import ReplayItemPopupComment from "./ReplayItemPopupComment";
 
 const ReplayItemModal = ({ onSetModal, title, description, votesCount }) => {
   return (
@@ -16,6 +17,8 @@ const ReplayItemModal = ({ onSetModal, title, description, votesCount }) => {
           <span>{votesCount}</span>
         </Button>
       </div>
+
+      <ReplayItemPopupComment />
     </Popup>
   );
 };
