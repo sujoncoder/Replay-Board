@@ -30,8 +30,28 @@ const ReplayFormModal = ({ onSetModal }) => {
   };
 
   // HANDLE FILE ATTACHMENT
-  const handleAttachment = (e) => {
-    console.log(e);
+  const handleAttachment = async (e) => {
+    const files = [...e.target.files];
+    const data = new FormData();
+    for (const file of files) {
+      data.append("file", file);
+    }
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: data, // Send FormData directly
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log(responseData);
+      } else {
+        console.error("Failed to upload files");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
   };
 
   return (
@@ -59,7 +79,12 @@ const ReplayFormModal = ({ onSetModal }) => {
         <div className="mt-4 flex justify-end gap-4">
           <label className="flex items-center text-slate-500 cursor-pointer">
             <span>Attach file</span>
-            <input onChange={handleAttachment} type="file" className="hidden" />
+            <input
+              multiple
+              onChange={handleAttachment}
+              type="file"
+              className="hidden"
+            />
           </label>
           <Button primary onClick={handleCreatePost}>
             Create post
