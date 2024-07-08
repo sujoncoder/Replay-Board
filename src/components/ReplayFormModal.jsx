@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import Button from "./Button";
 import Popup from "./Popup";
@@ -8,11 +7,31 @@ const ReplayFormModal = ({ onSetModal }) => {
   const [description, setDescription] = useState("");
 
   // HANDLE CREATE POST
-  const hadnleCreatePost = (e) => {
+  const handleCreatePost = async (e) => {
     e.preventDefault();
-    axios
-      .post("/api/replay", { title, description })
-      .then((res) => console.log(res));
+    try {
+      const response = await fetch("http://localhost:3000/api/replay", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, description }),
+      });
+      onSetModal(false);
+
+      if (response.ok) {
+        const data = await response.json();
+      } else {
+        console.error("Failed to submit data");
+      }
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  // HANDLE FILE ATTACHMENT
+  const handleAttachment = (e) => {
+    console.log(e);
   };
 
   return (
@@ -28,7 +47,7 @@ const ReplayFormModal = ({ onSetModal }) => {
         />
 
         <label className="text-lg text-slate-600 block pt-4 pb-2">
-          Descrption
+          Description
         </label>
         <textarea
           value={description}
@@ -38,8 +57,11 @@ const ReplayFormModal = ({ onSetModal }) => {
         ></textarea>
 
         <div className="mt-4 flex justify-end gap-4">
-          <Button>Attach file</Button>
-          <Button primary onClick={hadnleCreatePost}>
+          <label className="flex items-center text-slate-500 cursor-pointer">
+            <span>Attach file</span>
+            <input onChange={handleAttachment} type="file" className="hidden" />
+          </label>
+          <Button primary onClick={handleCreatePost}>
             Create post
           </Button>
         </div>
